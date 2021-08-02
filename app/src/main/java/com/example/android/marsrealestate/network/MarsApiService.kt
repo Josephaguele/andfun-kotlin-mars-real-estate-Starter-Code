@@ -24,3 +24,28 @@ import retrofit2.http.GET
 
 // root web address of the Mars server endpoint
 private const val BASE_URL = "https://mars.udacity.com/"
+
+//Add an instance of ScalarsConverterFactory and the BASE_URL we provided, then call build()
+// to create the Retrofit object.
+private val retrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create())
+    .baseUrl(BASE_URL)
+    .build()
+
+/*Create a MarsApiService interface, and define a getProperties() method to request the JSON response string.
+Annotate the method with @GET, specifying the endpoint for the JSON real estate response,
+ and create the Retrofit Call object that will start the HTTP request.*/
+interface MarsApiService {
+    @GET("realestate")
+    fun getProperties():
+            Call<String>
+}
+
+//Passing in the service API you just defined, create a public object called MarsApi to expose
+// the Retrofit service to the rest of the app:
+object MarsApi{
+    val retrofitService: MarsApiService by lazy{
+        retrofit.create(MarsApiService::class.java)
+    }
+}
+
