@@ -48,7 +48,7 @@ Annotate the method with @GET, specifying the endpoint for the JSON real estate 
 interface MarsApiService {
     @GET("realestate")
     fun getProperties():
-            Call<List<MarsProperty>> // change from String to List of Property
+            List<MarsProperty> // // list of property
 }
 
 //Passing in the service API you just defined, create a public object called MarsApi to expose
