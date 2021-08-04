@@ -57,11 +57,10 @@ class OverviewViewModel : ViewModel() {
      * Sets the value of the status LiveData to the Mars API status.
      */
     private fun getMarsRealEstateProperties() {
-
         viewModelScope.launch {
             try{
             var listResult = MarsApi.retrofitService.getProperties()
-
+                _status.value = "Success: ${listResult.size} Mars properties retrieved"
                 if (listResult.size > 0) { // if the list of the result gotten is > 0, then get the first value of the list.
                     _property.value = listResult[0]
                 }

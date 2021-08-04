@@ -76,7 +76,6 @@ dependencies {
 
 
 
-    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     // Retrofit - Deprecated plugins - No more required
     // implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     // implementation "com.squareup.retrofit2:converter-scalars:$version_retrofit"
@@ -97,9 +96,9 @@ dependencies {
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
+    // Deprecated
+    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
+    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
     // Retrofit Coroutines Support
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
+    //implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 }

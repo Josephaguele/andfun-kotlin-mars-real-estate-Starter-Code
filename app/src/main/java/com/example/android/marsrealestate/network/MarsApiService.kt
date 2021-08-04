@@ -19,7 +19,6 @@ package com.example.android.marsrealestate.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -41,13 +40,15 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 
-
 /*Create a MarsApiService interface, and define a getProperties() method to request the JSON response string.
 Annotate the method with @GET, specifying the endpoint for the JSON real estate response,
  and create the Retrofit Call object that will start the HTTP request.*/
 interface MarsApiService {
+    /*  * Returns a Coroutine [List] of [MarsProperty] which can be fetched with await() if in a Coroutine scope.
+     * The @GET annotation indicates that the "realestate" endpoint will be requested with the GET
+     * HTTP meth*/
     @GET("realestate")
-    fun getProperties():
+      fun getProperties():
             List<MarsProperty> // // list of property
 }
 
