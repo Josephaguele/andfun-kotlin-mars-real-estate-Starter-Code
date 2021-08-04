@@ -48,7 +48,7 @@ interface MarsApiService {
      * The @GET annotation indicates that the "realestate" endpoint will be requested with the GET
      * HTTP meth*/
     @GET("realestate")
-      fun getProperties():
+    suspend fun getProperties():
             List<MarsProperty> // // list of property
 }
 
