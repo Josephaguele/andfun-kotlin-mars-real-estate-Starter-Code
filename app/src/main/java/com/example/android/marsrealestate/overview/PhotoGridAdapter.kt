@@ -16,3 +16,56 @@
  */
 
 package com.example.android.marsrealestate.overview
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.android.marsrealestate.databinding.GridViewItemBinding
+import com.example.android.marsrealestate.network.MarsProperty
+
+/*In PhotoGridAdapter.kt create a 'PhotoGridAdapter' class that extends a RecyclerView ListAdapter
+ with  DiffCallback. Have it use a custom PhotoGridAdapter.MarsPropertyViewHolder to present a list
+ of <MarsProperty> objects:*/
+class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback)
+{
+    /*MarsPropertyViewHolder inner class,  implements the bind() method that includes a binding to marsProperty:*/
+    class MarsPropertyViewHolder(private var binding: GridViewItemBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(marsProperty: MarsProperty) {
+            binding.property = marsProperty
+            // This is important, because it forces the data binding to execute immediately,
+            // which allows the Recycleriew to make the correct view size measurements.
+            binding.executePendingBindings()
+        }
+    }
+
+    /**
+     * Create new [RecyclerView] item views (invoked by the layout manager)
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoGridAdapter.MarsPropertyViewHolder {
+        return MarsPropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
+    }
+
+    /**
+     * Replaces the contents of a view (invoked by the layout manager)
+     */
+    override fun onBindViewHolder(holder: PhotoGridAdapter.MarsPropertyViewHolder, position: Int) {
+        val marsProperty = getItem(position)
+        holder.bind(marsProperty)
+    }
+
+    /**
+     * Allows the RecyclerView to determine which items have changed when the [List] of [MarsProperty]
+     * has been updated.
+     */
+    companion object DiffCallback : DiffUtil.ItemCallback<MarsProperty>() {
+        override fun areItemsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
+            return oldItem.id == newItem.id
+        }
+    }
+}
