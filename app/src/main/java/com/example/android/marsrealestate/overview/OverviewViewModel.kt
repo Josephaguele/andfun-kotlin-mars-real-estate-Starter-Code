@@ -73,6 +73,26 @@ class OverviewViewModel : ViewModel() {
             }
         }
     }
+
+
+   // In OverviewViewModel, add an encapsulated LiveData variable for navigating to
+   // the selectedProperty detail screen:
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val navigateToSelectedProperty: LiveData<MarsProperty>
+        get() = _navigateToSelectedProperty
+
+    //Add a function to set _navigateToSelectedProperty to marsProperty and initiate navigation
+    // to the detail screen on button click:
+    fun displayPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToSelectedProperty.value = marsProperty
+    }
+
+    //and you'll need to add displayPropertyDetailsComplete() to set _navigateToSelectedProperty
+    // to false once navigation is completed to prevent unwanted extra navigations:
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
+    }
+
 }
 
 
