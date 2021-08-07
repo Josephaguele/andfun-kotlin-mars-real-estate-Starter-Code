@@ -33,11 +33,12 @@ import retrofit2.Response
  */
 class OverviewViewModel : ViewModel() {
 
-    // The internal MutableLiveData String that stores the status of the most recent request
-    private val _status = MutableLiveData<String>()
+    // The internal MutableLiveData MarsApiStatus that stores the status of the most recent request
+    private val _status = MutableLiveData<MarsApiStatus>()
 
-    // The external immutable LiveData for the request status String
-    val status: LiveData<String>
+    // The external immutable LiveData for the request status MarsApiStatus
+    // This will return the status, whether it is done, loading or having an error
+    val status: LiveData<MarsApiStatus>
         get() = _status
 
     // a list of MarsProperty
@@ -53,24 +54,23 @@ class OverviewViewModel : ViewModel() {
         getMarsRealEstateProperties()
     }
 
+
     /**
      * Sets the value of the status LiveData to the Mars API status.
      */
     private fun getMarsRealEstateProperties() {
         viewModelScope.launch {
-            try{
-            var listResult = MarsApi.retrofitService.getProperties()
-                _status.value = "Success: ${listResult.size} Mars properties retrieved"
-                if (listResult.size > 0) { // updated to return the entire list instead of just one item.
-                    _properties.value = listResult
-                }
-            }catch(e: Exception)
-            {
-                _status.value = "Failure: ${e.message}"
+            _status.value = MarsApiStatus.LOADING
+            try {
+                _properties.value = MarsApi.retrofitService.getProperties()
+                _status.value = MarsApiStatus.DONE
+            } catch (e: Exception) {
+                _status.value = MarsApiStatus.ERROR
+                _properties.value = ArrayList()
             }
         }
-
     }
-
-
 }
+
+
+enum class MarsApiStatus{LOADING, ERROR, DONE}
