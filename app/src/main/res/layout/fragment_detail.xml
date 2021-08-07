@@ -20,6 +20,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <!--we add a <data> block and declare a viewModel <variable> of type DetailViewModel: -->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.android.marsrealestate.detail.DetailViewModel" />
+    </data>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,17 +37,21 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
+            <!--add an app:imageUrl attribute that binds to the imgSrcUrl for the selectedProperty: -->
             <ImageView
                 android:id="@+id/main_photo_image"
                 android:layout_width="0dp"
                 android:layout_height="266dp"
                 android:scaleType="centerCrop"
+                app:imageUrl="@{viewModel.selectedProperty.imgSrcUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
+<!--Bind the property_type_text TextView to viewModel.selectedProperty.type -->
             <TextView
+                android:text="@{viewModel.selectedProperty.type}"
                 android:id="@+id/property_type_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,9 +62,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/main_photo_image"
                 tools:text="To Rent" />
 
+<!--and the price_value_text TextView to viewModel.selectedProperty.price, converted to a string value: -->
             <TextView
                 android:id="@+id/price_value_text"
                 android:layout_width="wrap_content"
+                android:text="@{String.valueOf(viewModel.selectedProperty.price)}"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textColor="#de000000"
