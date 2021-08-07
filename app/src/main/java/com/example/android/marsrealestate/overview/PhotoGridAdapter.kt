@@ -28,7 +28,8 @@ import com.example.android.marsrealestate.network.MarsProperty
 /*In PhotoGridAdapter.kt create a 'PhotoGridAdapter' class that extends a RecyclerView ListAdapter
  with  DiffCallback. Have it use a custom PhotoGridAdapter.MarsPropertyViewHolder to present a list
  of <MarsProperty> objects:*/
-class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback)
+//adding an onclickListener to the photo grid adapter class.
+class PhotoGridAdapter (val onClickListener: OnClickListener) : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback)
 {
     /*MarsPropertyViewHolder inner class,  implements the bind() method that includes a binding to marsProperty:*/
     class MarsPropertyViewHolder(private var binding: GridViewItemBinding): RecyclerView.ViewHolder(binding.root) {
@@ -52,6 +53,11 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
      */
     override fun onBindViewHolder(holder: PhotoGridAdapter.MarsPropertyViewHolder, position: Int) {
         val marsProperty = getItem(position)
+
+        //In onBindViewHolder(), set up onClickListener() to pass marsProperty on button click:
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(marsProperty)
+        }
         holder.bind(marsProperty)
     }
 
@@ -67,5 +73,11 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
         override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
             return oldItem.id == newItem.id
         }
+    }
+
+    //InPhotoGridAdapter, create an internal OnClickListener class with a lambda
+    // in its constructor that initializes a matching onClick function:
+    class OnClickListener(val clickListener: (marsProperty: MarsProperty) -> Unit) {
+        fun onClick(marsProperty:MarsProperty) = clickListener(marsProperty)
     }
 }
