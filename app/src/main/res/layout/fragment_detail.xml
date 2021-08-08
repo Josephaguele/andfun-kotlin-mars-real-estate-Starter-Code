@@ -49,9 +49,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
-<!--Bind the property_type_text TextView to viewModel.selectedProperty.type -->
+<!--Replace the TextView android:text bindings in fragment_detail with the transformations defined in the viewModel -->
             <TextView
-                android:text="@{viewModel.selectedProperty.type}"
+                android:text="@{viewModel.displayPropertyType}"
                 android:id="@+id/property_type_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,11 +62,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/main_photo_image"
                 tools:text="To Rent" />
 
-<!--and the price_value_text TextView to viewModel.selectedProperty.price, converted to a string value: -->
+<!--and the same for price_value_text -->
             <TextView
                 android:id="@+id/price_value_text"
                 android:layout_width="wrap_content"
-                android:text="@{String.valueOf(viewModel.selectedProperty.price)}"
+                android:text="@{viewModel.displayPropertyPrice}"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textColor="#de000000"

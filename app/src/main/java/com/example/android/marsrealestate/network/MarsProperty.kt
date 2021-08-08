@@ -30,5 +30,11 @@ data class MarsProperty(
     @Json(name = "img_src") val imgSrcUrl: String, /*Rename the img_src class property to imgSrcUrl,
      and add a @Json annotation to remap the img_src JSON field to it:*/
     val type: String,
-    val price: Double): Parcelable{}
+    val price: Double): Parcelable{
+
+    //Inside the MarsProperty class, create an isRental boolean, and set its value based on whether
+    // the property type is "rent":
+    val isRental
+        get() = type == "rent"
+    }
 
