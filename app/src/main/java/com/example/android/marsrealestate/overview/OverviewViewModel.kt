@@ -22,6 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.marsrealestate.network.MarsApi
+import com.example.android.marsrealestate.network.MarsApiFilter
 import com.example.android.marsrealestate.network.MarsProperty
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -50,8 +51,8 @@ class OverviewViewModel : ViewModel() {
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
-    init {
-        getMarsRealEstateProperties()
+    init {// we pass MarsApiFilter.SHOW_ALL as the default parameter to getMarsRealEstateProperties():
+        getMarsRealEstateProperties(MarsApiFilter.SHOW_ALL)
     }
 
 
@@ -61,17 +62,25 @@ class OverviewViewModel : ViewModel() {
      * [MarsProperty] [List] [LiveData]. The Retrofit service returns a coroutine Deferred, which we
      * await to get the result of the transaction.
      */
-    private fun getMarsRealEstateProperties() {
+    //add a MarsApiFilter parameter to getMarsRealEstateProperties():
+    private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
-            try {
-                _properties.value = MarsApi.retrofitService.getProperties()
+            try { //Pass the filter.value to retrofitService.getProperties():
+                _properties.value = MarsApi.retrofitService.getProperties(filter.value)
                 _status.value = MarsApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MarsApiStatus.ERROR
                 _properties.value = ArrayList()
             }
         }
+    }
+
+
+    //Now create an updateFilter() method to requery the data by calling
+    // getMarsRealEstateProperties with the new filter:
+    fun updateFilter(filter: MarsApiFilter) {
+        getMarsRealEstateProperties(filter)
     }
 
 

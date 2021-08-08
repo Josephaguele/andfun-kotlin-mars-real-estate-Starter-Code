@@ -22,6 +22,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 // root web address of the Mars server endpoint
 private const val BASE_URL = "https://mars.udacity.com/"
@@ -47,9 +48,15 @@ interface MarsApiService {
     /*  * Returns a Coroutine [List] of [MarsProperty] which can be fetched with await() if in a Coroutine scope.
      * The @GET annotation indicates that the "realestate" endpoint will be requested with the GET
      * HTTP meth*/
+
+    //Add a @Query("filter") parameter to getProperties()
+    // so we can filter properties based on the MarsApiFilter enum values:
     @GET("realestate")
-    suspend fun getProperties():
+     suspend fun getProperties(@Query("filter") type: String):
             List<MarsProperty> // // list of property
+
+
+
 }
 
 //Passing in the service API you just defined, create a public object called MarsApi to expose
@@ -59,4 +66,10 @@ object MarsApi{
         retrofit.create(MarsApiService::class.java)
     }
 }
+
+//In MarsApiService, create a MarsApiFilter enum that defines constants to match the query values our web service expects:
+enum class MarsApiFilter(val value: String)
+{ SHOW_RENT("rent"),
+    SHOW_BUY("buy"),
+    SHOW_ALL("all") }
 
